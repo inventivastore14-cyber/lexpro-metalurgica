@@ -27,7 +27,6 @@ import {
   MapPin
 } from "lucide-react";
 import heroImage from "@/assets/hero-metalurgia.jpg";
-import lexasLogo from "@/assets/lexas-logo.png";
 
 const LandingPage = () => {
   const { toast } = useToast();
@@ -90,7 +89,7 @@ const LandingPage = () => {
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-20 p-6">
         <div className="container mx-auto">
-          <img src={lexasLogo} alt="LexAs" className="h-12" />
+          <h3 className="text-2xl font-bold text-white">LexAs</h3>
         </div>
       </header>
       {/* Hero Section */}
@@ -552,7 +551,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <img src={lexasLogo} alt="LexAs" className="h-8 mb-2" />
+              <h3 className="text-2xl font-bold">LexAs</h3>
               <p className="text-white/80">© 2024 LexAs. Todos los derechos reservados.</p>
             </div>
             <div className="flex space-x-6 text-sm">
