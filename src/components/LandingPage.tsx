@@ -3,6 +3,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { contactFormSchema, type ContactFormData } from "@/schemas/contactForm";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Settings, 
   TrendingUp, 
@@ -23,6 +29,61 @@ import {
 import heroImage from "@/assets/hero-metalurgia.jpg";
 
 const LandingPage = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      nombre: "",
+      email: "",
+      telefono: "",
+      empresa: "",
+      cargo: "",
+      empleados: "",
+      mensaje: "",
+    },
+  });
+
+  const sanitizeInput = (input: string): string => {
+    return input.trim().replace(/[<>]/g, "");
+  };
+
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true);
+    
+    try {
+      // Sanitize inputs
+      const sanitizedData = {
+        nombre: sanitizeInput(data.nombre),
+        email: sanitizeInput(data.email),
+        telefono: sanitizeInput(data.telefono),
+        empresa: sanitizeInput(data.empresa),
+        cargo: data.cargo ? sanitizeInput(data.cargo) : "",
+        empleados: data.empleados ? sanitizeInput(data.empleados) : "",
+        mensaje: data.mensaje ? sanitizeInput(data.mensaje) : "",
+      };
+
+      // TODO: Implement secure backend submission when Supabase integration is added
+      console.log("Form submitted:", sanitizedData);
+      
+      toast({
+        title: "¡Formulario enviado!",
+        description: "Nos pondremos en contacto contigo pronto.",
+      });
+      
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Ha ocurrido un error. Por favor intenta nuevamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -333,53 +394,123 @@ const LandingPage = () => {
 
             <Card className="max-w-2xl mx-auto">
               <CardContent className="p-8">
-                <form className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="nombre">Nombre Completo *</Label>
-                      <Input id="nombre" placeholder="Tu nombre completo" required />
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="nombre"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Nombre Completo *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Tu nombre completo" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email Corporativo *</FormLabel>
+                            <FormControl>
+                              <Input type="email" placeholder="tu@empresa.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
-                    <div>
-                      <Label htmlFor="email">Email Corporativo *</Label>
-                      <Input id="email" type="email" placeholder="tu@empresa.com" required />
+                    
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="telefono"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Teléfono *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="+56 9 1234 5678" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="empresa"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Nombre de la Empresa *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Tu empresa" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
-                  </div>
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="telefono">Teléfono *</Label>
-                      <Input id="telefono" placeholder="+56 9 1234 5678" required />
-                    </div>
-                    <div>
-                      <Label htmlFor="empresa">Nombre de la Empresa *</Label>
-                      <Input id="empresa" placeholder="Tu empresa" required />
-                    </div>
-                  </div>
 
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="cargo">Cargo</Label>
-                      <Input id="cargo" placeholder="Tu cargo" />
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="cargo"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Cargo</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Tu cargo" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="empleados"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Número de Empleados</FormLabel>
+                            <FormControl>
+                              <Input placeholder="ej: 50-100" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
-                    <div>
-                      <Label htmlFor="empleados">Número de Empleados</Label>
-                      <Input id="empleados" placeholder="ej: 50-100" />
-                    </div>
-                  </div>
 
-                  <div>
-                    <Label htmlFor="mensaje">Mensaje (Opcional)</Label>
-                    <Textarea id="mensaje" placeholder="Cuéntanos sobre tus necesidades específicas" />
-                  </div>
+                    <FormField
+                      control={form.control}
+                      name="mensaje"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mensaje (Opcional)</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="Cuéntanos sobre tus necesidades específicas" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <Button type="submit" size="lg" className="w-full bg-secondary hover:bg-secondary/90">
-                    Solicitar Demostración Gratuita
-                  </Button>
+                    <Button 
+                      type="submit" 
+                      size="lg" 
+                      className="w-full bg-secondary hover:bg-secondary/90"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Enviando..." : "Solicitar Demostración Gratuita"}
+                    </Button>
 
-                  <p className="text-sm text-muted-foreground text-center">
-                    Tus datos están seguros con nosotros. No compartimos tu información.
-                  </p>
-                </form>
+                    <p className="text-sm text-muted-foreground text-center">
+                      Tus datos están seguros con nosotros. No compartimos tu información.
+                    </p>
+                  </form>
+                </Form>
               </CardContent>
             </Card>
           </div>
