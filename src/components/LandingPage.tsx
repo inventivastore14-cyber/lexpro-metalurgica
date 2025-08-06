@@ -393,17 +393,17 @@ const LandingPage = () => {
             <div className="flex flex-col items-center">
               <Phone className="w-8 h-8 text-primary mb-3" />
               <h4 className="font-semibold mb-2">Teléfono</h4>
-              <p className="text-muted-foreground">+56 2 2234 5678</p>
+              <p className="text-muted-foreground">+56 2 2673 5885</p>
             </div>
             <div className="flex flex-col items-center">
               <Mail className="w-8 h-8 text-primary mb-3" />
               <h4 className="font-semibold mb-2">Email</h4>
-              <p className="text-muted-foreground">contacto@lexpro.cl</p>
+              <p className="text-muted-foreground">ventas@lexasconsultores.cl</p>
             </div>
             <div className="flex flex-col items-center">
               <MapPin className="w-8 h-8 text-primary mb-3" />
               <h4 className="font-semibold mb-2">Dirección</h4>
-              <p className="text-muted-foreground">Providencia 1234, Santiago, Chile</p>
+              <p className="text-muted-foreground">Teatinos 251, Santiago, Chile</p>
             </div>
           </div>
         </div>
