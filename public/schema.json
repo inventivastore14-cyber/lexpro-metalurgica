@@ -1,0 +1,28 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "LexAs ERP",
+  "description": "Software especializado para metalúrgicas y maestranzas. Optimiza producción, inventario y contabilidad.",
+  "url": "https://lexas-erp.com",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "ARS",
+    "description": "Demo gratuita disponible"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "LexAs ERP",
+    "url": "https://lexas-erp.com"
+  },
+  "targetMarket": {
+    "@type": "Place",
+    "name": "Argentina"
+  },
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Metalúrgicas y Maestranzas"
+  }
+}
