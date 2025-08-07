@@ -64,19 +64,28 @@ const LandingPage = () => {
         mensaje: data.mensaje ? sanitizeInput(data.mensaje) : "",
       };
 
-      // TODO: Implement secure backend submission when Supabase integration is added
-      console.log("Form submitted:", sanitizedData);
+      // Send email via Supabase edge function
+      const { supabase } = await import("@/integrations/supabase/client");
+      
+      const { data: result, error } = await supabase.functions.invoke('send-contact-email', {
+        body: sanitizedData
+      });
+
+      if (error) {
+        throw error;
+      }
       
       toast({
         title: "¡Formulario enviado!",
-        description: "Nos pondremos en contacto contigo pronto.",
+        description: "Te hemos enviado un email de confirmación. Nos pondremos en contacto contigo pronto.",
       });
       
       form.reset();
     } catch (error) {
+      console.error("Error submitting form:", error);
       toast({
         title: "Error",
-        description: "Ha ocurrido un error. Por favor intenta nuevamente.",
+        description: "Ha ocurrido un error al enviar el formulario. Por favor intenta nuevamente.",
         variant: "destructive",
       });
     } finally {
