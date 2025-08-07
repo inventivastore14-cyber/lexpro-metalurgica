@@ -28,8 +28,8 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const formData: ContactFormData = await req.json();
 
-    // Email destinatario - CAMBIA ESTE EMAIL POR EL TUYO
-    const DESTINATION_EMAIL = "comunicaciones@lexasconsultores.cl"; // ← Cambia este email
+    // Email destinatario
+    const DESTINATION_EMAIL = "comunicaciones@lexasconsultores.cl";
 
     // Email de confirmación al cliente
     const confirmationEmail = await resend.emails.send({
